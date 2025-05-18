@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Types.hpp"
+#include "Order.hpp"
 
 namespace Exchange
 {
@@ -10,15 +10,9 @@ namespace Exchange
             TradeReporter() = default;
             virtual ~TradeReporter() = default;
 
-            virtual void OnTradeImpl(OrderId order_id, Price price, Quantity quantity) = 0;
-#if false
-            template<typename Self>
-            void onTrade(this Self&& self, OrderId order_id, Price price, Quantity quantity)
-            {
-                static_cast<Self*>(this)->onTradeImpl(order_id, price, quantity);
-            }
-#endif
-
+            virtual void OnTradeReporter(Trade&& trade) = 0;
+    
+        private:
             TradeReporter(const TradeReporter &) = delete;
             TradeReporter &operator=(const TradeReporter &) = delete;
     };

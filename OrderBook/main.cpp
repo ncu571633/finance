@@ -1,5 +1,6 @@
 #include "MatchingEngine.hpp"
 #include "TradeReporter.hpp"
+#include "OrderBook.hpp"
 
 #include <iostream>
 #include <print>
@@ -11,13 +12,16 @@
 namespace Exchange 
 {
 namespace {
-class PrintingReporter : public TradeReporter {
-public:
-  void OnTradeImpl(OrderId order_id, Price price, Quantity quantity)
-  {
-    std::print("TRADE {} {} {}", order_id, price, quantity);
-  }
-};
+  class PrintingReporter : public TradeReporter {
+  public:
+    virtual void OnTradeReporter(Trade&& trade) override
+    {
+      std::print("TRADE {} {} {} {} {} {}\n", 
+            trade.oppOrder.id, trade.oppOrder.price, trade.quantity,
+            trade.order.id, trade.order.price, trade.quantity
+      );
+    }
+  };
 }
 }
 

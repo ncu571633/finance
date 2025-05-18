@@ -4,7 +4,7 @@
 
 namespace Exchange
 {
-    void OrderBook::AddOrder(Side side, OrderType type, int price, int quantity, const std::string& id)
+    void OrderBook::AddOrder(Side side, OrderType type, Price price, Quantity quantity, const OrderId& id)
     {
         Order order(side, type, price, quantity, id);
 
@@ -23,9 +23,8 @@ namespace Exchange
                 {
                     Order& sellOrder = *sellOrderIter;
                     int tradeQuantity = std::min(sellOrder.quantity, order.quantity);
-                    std::cout << "TRADE " << sellOrder.id << " " << sellOrder.price << " " << tradeQuantity
-                              << " " << order.id << " " << order.price << " " << tradeQuantity
-                              << std::endl;
+                    reporter.OnTradeReporter(Trade(sellOrder, order, tradeQuantity));
+                    
                     order.quantity -= tradeQuantity;
                     sellOrder.quantity -= tradeQuantity;
 
@@ -69,9 +68,8 @@ namespace Exchange
                 {
                     Order& buyOrder = *buyOrderIter;
                     int tradeQuantity = std::min(order.quantity, buyOrder.quantity);
-                    std::cout << "TRADE " << buyOrder.id << " " << buyOrder.price << " " << tradeQuantity
-                              << " " << order.id << " " << order.price << " " << tradeQuantity
-                              << std::endl;
+                    reporter.OnTradeReporter(Trade(buyOrder, order, tradeQuantity));
+                    
                     order.quantity -= tradeQuantity;
                     buyOrder.quantity -= tradeQuantity;
                     if (buyOrder.quantity == 0)
@@ -130,7 +128,7 @@ namespace Exchange
         idMap.erase(it);
     }
 
-    void OrderBook::ModifyOrder(std::string orderId, Side s, int price, int quantity)
+    void OrderBook::ModifyOrder(const OrderId& orderId, Side s, Price price, Quantity quantity)
     {
         auto it = idMap.find(orderId);
         // cannot find Order
@@ -150,22 +148,22 @@ namespace Exchange
 
     void OrderBook::PrintBook()
     {
-        std::cout << "SELL:" << std::endl;
-        for(auto iter = sellBook.rbegin(); iter!=sellBook.rend(); ++iter) // decerasing order
+        std::print("SELL:\n");
+        for (auto iter = sellBook.rbegin(); iter != sellBook.rend(); ++iter) // decreasing order
         {
             int quantity = 0;
-            for (auto& orderIter: iter->second)
+            for (auto& orderIter : iter->second)
                 quantity += orderIter.quantity;
-            std::cout << iter->first << " " << quantity << std::endl;
+            std::print("{} {}\n", iter->first, quantity);
         }
 
-        std::cout << "BUY:" << std::endl;
-        for(auto iter = buyBook.begin(); iter!=buyBook.end(); ++iter) // decreasing order
+        std::print("BUY:\n");
+        for (auto iter = buyBook.begin(); iter != buyBook.end(); ++iter) // decreasing order
         {
             int quantity = 0;
-            for (auto& orderIter: iter->second)
+            for (auto& orderIter : iter->second)
                 quantity += orderIter.quantity;
-            std::cout << iter->first << " " << quantity << std::endl;
+            std::print("{} {}\n", iter->first, quantity);
         }
     }
 

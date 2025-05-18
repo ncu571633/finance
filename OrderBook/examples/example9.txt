@@ -1,0 +1,5 @@
+# Example orders file
+
+BUY GFD 1000 10 order1
+BUY GFD 1010 10 order2
+SELL GFD 1000 15 order3

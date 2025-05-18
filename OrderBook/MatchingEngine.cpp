@@ -1,15 +1,28 @@
 #include "MatchingEngine.hpp"
 #include "OrderBook.hpp"
 #include <sstream>
+#include <ranges>
 
 namespace Exchange
 {
-    void MatchingEngine::Match(std::istream& in, TradeReporter& /*reporter*/)
+    void MatchingEngine::Match(std::istream& in, TradeReporter& reporter)
     {
-        std::string line;
-        OrderBook orderBook;
-        while(getline(in, line))
+        OrderBook orderBook(reporter);
+
+        for (std::string line; 
+            std::getline(in, line);
+        )
         {
+            auto view = line 
+                | std::views::drop_while([](unsigned char c){ return std::isspace(c); })
+                | std::views::reverse
+                | std::views::drop_while([](unsigned char c){ return std::isspace(c); })
+                | std::views::reverse;
+            line = std::string(view.begin(), view.end());
+            if (line.empty() || line.starts_with('#')) 
+                continue;
+            // std::print("{}\n", line);
+
             std::istringstream iss(line);
             std::string cmd;
             iss >> cmd;
@@ -43,38 +56,11 @@ namespace Exchange
             {
                 orderBook.PrintBook();
             }
-        }
-        #if false
-
-        for (std::string line; std::getline(std::cin, line);) 
-        {
-            auto view = line 
-                | std::views::drop_while([](unsigned char c){ return std::isspace(c); })
-                | std::views::reverse
-                | std::views::drop_while([](unsigned char c){ return std::isspace(c); })
-                | std::views::reverse;
-            line = std::string(view.begin(), view.end());
-            if (line.empty() || line.starts_with('#')) 
-            continue;
-            std::print("{}\n", line);
-
-            std::istringstream str(line);
-            std::string command;
-            OrderBook::OrderId id;
-            str >> command >> id;
-            if (command == "ADD") {
-            std::string side_str;
-            OrderBook::Price price;
-            OrderBook::Quantity quantity;
-            str >> side_str >> price >> quantity;
-            exchange.on_add(id, OrderBook::parse_side(side_str), price, quantity);
-            } else if (command == "DELETE") {
-            exchange.on_delete(id);
-            } else {
-            throw std::runtime_error("Bad command " + command + " in \'" + line + "\'");
+            else 
+            {
+                throw std::runtime_error("Bad command " + cmd + " in \'" + line + "\'");
             }
         }
-  #endif
     }
 
     Side MatchingEngine::ParseSide(const std::string& side)
@@ -84,9 +70,11 @@ namespace Exchange
         throw std::runtime_error("Bad side '" + std::string(side) + "'");
     }
 
-    OrderType MatchingEngine::ParseType(const std::string& s)
+    OrderType MatchingEngine::ParseType(const std::string& type)
     {
-        return s == "GFD" ? OrderType::GFD: OrderType::IOC;
+        if (type == "GFD") return OrderType::GFD;
+        if (type == "IOC") return OrderType::IOC;
+        throw std::runtime_error("Bad type'" + type + "'");
     }
 }
 
