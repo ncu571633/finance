@@ -100,7 +100,7 @@ namespace Exchange
         }
     }
 
-    void OrderBook::CancelOrder(const std::string& id)
+    void OrderBook::CancelOrder(const OrderId& id)
     {
         auto it = idMap.find(id);
         // cannot find Order

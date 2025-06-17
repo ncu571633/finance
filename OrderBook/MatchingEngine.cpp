@@ -28,7 +28,8 @@ namespace Exchange
             iss >> cmd;
             if (cmd == "BUY" || cmd == "SELL")
             {
-                std::string type, orderId;
+                std::string type;
+                OrderId orderId;
                 int price, quantity;
                 iss >> type >> price >> quantity >> orderId;
                 if (price<=0 || quantity <=0 || orderId.empty())
@@ -37,7 +38,7 @@ namespace Exchange
             }
             else if (cmd == "CANCEL")
             {
-                std::string orderId;
+                OrderId orderId;
                 iss >> orderId;
                 if (orderId.empty())
                     continue;
@@ -45,7 +46,8 @@ namespace Exchange
             }
             else if (cmd == "MODIFY")
             {
-                std::string orderId, side;
+                std::string side;
+                OrderId orderId;
                 int price, quantity;
                 iss >> orderId >> side >> price >> quantity;
                 if (price<=0 || quantity <=0 || orderId.empty())

@@ -18,9 +18,9 @@ namespace Exchange
         void PrintBook();
 
     private:
-        std::map<int, std::list<Order>> sellBook; // ascending order
-        std::map<int, std::list<Order>, std::greater<int>> buyBook; // descending order
-        std::unordered_map<std::string, std::pair<Side, std::list<Order>::iterator>> idMap; // id -> ()
+        std::map<Price, std::list<Order>> sellBook; // ascending order
+        std::map<Price, std::list<Order>, std::greater<Price>> buyBook; // descending order
+        std::unordered_map<OrderId, std::pair<Side, std::list<Order>::iterator>> idMap; // id -> ()
         TradeReporter& reporter;
     };
 }
