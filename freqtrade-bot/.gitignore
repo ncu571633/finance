@@ -1,0 +1,21 @@
+# --- Secrets: NEVER commit the real config (contains API keys) ---
+config.json
+
+# --- Freqtrade runtime artifacts (regenerated locally) ---
+user_data/data/
+user_data/logs/
+user_data/backtest_results/
+user_data/hyperopt_results/
+user_data/plot/
+user_data/notebooks/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.log
+
+# --- Python environment ---
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc

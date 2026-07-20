@@ -1,0 +1,3 @@
+# Freqtrade engine — installed from PyPI, NOT vendored into this repo.
+# Pinned to the version this project was developed against.
+freqtrade==2026.6
