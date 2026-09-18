@@ -1,3 +1,7 @@
 # Freqtrade engine — installed from PyPI, NOT vendored into this repo.
 # Pinned to the version this project was developed against.
 freqtrade==2026.6
+
+# Core engine (hyperopt / optimize) imports scipy but the bare freqtrade
+# package didn't pull it on native Windows + Python 3.13 — pin it explicitly.
+scipy==1.18.1

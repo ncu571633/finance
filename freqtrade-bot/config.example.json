@@ -6,6 +6,7 @@
     "tradable_balance_ratio": 0.99,
     "fiat_display_currency": "USD",
     "timeframe": "5m",
+    "fee": 0.00075,
     "dry_run": true,
     "dry_run_wallet": 1000,
     "cancel_open_orders_on_exit": false,
@@ -34,7 +35,17 @@
         "name": "binance",
         "key": "YOUR_EXCHANGE_KEY_HERE",
         "secret": "YOUR_EXCHANGE_SECRET_HERE",
-        "ccxt_config": {},
+        "_comment_urls": "api.binance.com is geo-blocked (HTTP 451) in some regions. data-api.binance.vision is Binance's unauthenticated public-data mirror and bypasses the block for market data. This only routes PUBLIC data (exchangeInfo, klines) — it CANNOT place orders, so dry-run/live trading needs a reachable trading endpoint. fetchMarkets:[spot] skips the geo-blocked futures (fapi) endpoint. Remove this ccxt_config block if api.binance.com is reachable for you.",
+        "ccxt_config": {
+            "options": {
+                "fetchMarkets": ["spot"]
+            },
+            "urls": {
+                "api": {
+                    "public": "https://data-api.binance.vision/api/v3"
+                }
+            }
+        },
         "ccxt_async_config": {},
         "pair_whitelist": [
             "BTC/USDT",
