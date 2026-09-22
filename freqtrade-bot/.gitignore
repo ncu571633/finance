@@ -23,3 +23,10 @@ __pycache__/
 # --- Editor temp files ---
 *.swp
 *.swo
+
+# --- Third-party strategy: NOT vendored. Fetch from
+#     github.com/iterativv/NostalgiaForInfinity (see RESULTS.md) ---
+user_data/strategies/NostalgiaForInfinityX8.py
+
+# --- Stray backtest result artifacts dumped in user_data/ root ---
+user_data/*backtest*.json
