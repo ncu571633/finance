@@ -1,0 +1,37 @@
+{
+    "$schema": "https://schema.freqtrade.io/schema.json",
+    "max_open_trades": 2,
+    "stake_currency": "USDT",
+    "stake_amount": "unlimited",
+    "tradable_balance_ratio": 0.99,
+    "fiat_display_currency": "USD",
+    "timeframe": "1d",
+    "fee": 0.00075,
+    "dry_run": true,
+    "dry_run_wallet": 10000,
+    "trading_mode": "spot",
+    "dataformat_ohlcv": "feather",
+    "use_exit_signal": true,
+    "exit_profit_only": false,
+    "unfilledtimeout": { "entry": 10, "exit": 10, "unit": "minutes" },
+    "entry_pricing": { "price_side": "same", "use_order_book": false, "order_book_top": 1 },
+    "exit_pricing": { "price_side": "same", "use_order_book": false, "order_book_top": 1 },
+    "exchange": {
+        "name": "binance",
+        "key": "",
+        "secret": "",
+        "_comment_urls": "data-only public mirror to bypass geo-block; cannot place orders.",
+        "ccxt_config": {
+            "enableRateLimit": true,
+            "options": { "fetchMarkets": ["spot"] },
+            "urls": { "api": { "public": "https://data-api.binance.vision/api/v3" } }
+        },
+        "ccxt_async_config": { "enableRateLimit": true },
+        "pair_whitelist": [ "BTC/USDT", "ETH/USDT" ],
+        "pair_blacklist": []
+    },
+    "pairlists": [ { "method": "StaticPairList" } ],
+    "bot_name": "btc-eth-trend",
+    "initial_state": "running",
+    "internals": { "process_throttle_secs": 5 }
+}

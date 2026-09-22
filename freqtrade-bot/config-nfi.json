@@ -1,0 +1,122 @@
+{
+    "$schema": "https://schema.freqtrade.io/schema.json",
+    "max_open_trades": 6,
+    "stake_currency": "USDT",
+    "stake_amount": "unlimited",
+    "tradable_balance_ratio": 0.99,
+    "fiat_display_currency": "USD",
+    "timeframe": "5m",
+    "fee": 0.00075,
+    "dry_run": true,
+    "dry_run_wallet": 10000,
+    "trading_mode": "spot",
+    "dataformat_ohlcv": "feather",
+    "use_exit_signal": true,
+    "exit_profit_only": false,
+    "ignore_roi_if_entry_signal": true,
+    "unfilledtimeout": {
+        "entry": 3,
+        "exit": 2,
+        "exit_timeout_count": 0,
+        "unit": "minutes"
+    },
+    "order_types": {
+        "entry": "limit",
+        "exit": "limit",
+        "emergency_exit": "limit",
+        "force_entry": "limit",
+        "force_exit": "limit",
+        "stoploss": "limit",
+        "stoploss_on_exchange": false
+    },
+    "entry_pricing": {
+        "price_side": "other",
+        "use_order_book": false,
+        "order_book_top": 1,
+        "price_last_balance": 0
+    },
+    "exit_pricing": {
+        "price_side": "other",
+        "use_order_book": false,
+        "order_book_top": 1,
+        "price_last_balance": 0
+    },
+    "exchange": {
+        "name": "binance",
+        "key": "",
+        "secret": "",
+        "_comment_urls": "data-only public mirror to bypass geo-block; cannot place orders.",
+        "ccxt_config": {
+            "enableRateLimit": true,
+            "options": {
+                "fetchMarkets": [
+                    "spot"
+                ]
+            },
+            "urls": {
+                "api": {
+                    "public": "https://data-api.binance.vision/api/v3"
+                }
+            }
+        },
+        "ccxt_async_config": {
+            "enableRateLimit": true
+        },
+        "pair_whitelist": [
+            "1INCH/USDT",
+            "ADA/USDT",
+            "ADX/USDT",
+            "AGLD/USDT",
+            "ALGO/USDT",
+            "ALICE/USDT",
+            "ALPACA/USDT",
+            "ALPHA/USDT",
+            "AR/USDT",
+            "ARPA/USDT",
+            "ATM/USDT",
+            "ATOM/USDT",
+            "AUCTION/USDT",
+            "AUDIO/USDT",
+            "AVA/USDT",
+            "AVAX/USDT",
+            "AXS/USDT",
+            "BADGER/USDT",
+            "BAKE/USDT",
+            "BAND/USDT",
+            "BAR/USDT",
+            "BCH/USDT",
+            "BEL/USDT",
+            "BETA/USDT",
+            "BNT/USDT",
+            "BNX/USDT",
+            "BTC/USDT",
+            "BURGER/USDT",
+            "C98/USDT",
+            "CAKE/USDT",
+            "CELR/USDT",
+            "CFX/USDT",
+            "CHR/USDT",
+            "CHZ/USDT",
+            "CKB/USDT",
+            "COTI/USDT",
+            "CRV/USDT",
+            "DASH/USDT",
+            "DATA/USDT",
+            "DEGO/USDT"
+        ],
+        "pair_blacklist": [
+            "BNB/.*",
+            ".*(BULL|BEAR|UP|DOWN)/.*"
+        ]
+    },
+    "pairlists": [
+        {
+            "method": "StaticPairList"
+        }
+    ],
+    "bot_name": "nfi-backtest",
+    "initial_state": "running",
+    "internals": {
+        "process_throttle_secs": 5
+    }
+}
